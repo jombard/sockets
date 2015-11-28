@@ -2,6 +2,8 @@ var socket = io();
 var name = getQueryVariable('name') || 'Anonymous';
 var room = getQueryVariable('room') || 'Lobby';
 
+jQuery('.room-title').text(room);
+
 socket.on('connect', function(){
 	var momentTimeStamp = moment.utc();
 
@@ -11,6 +13,10 @@ socket.on('connect', function(){
 		'</strong>: ' + name + ' joined the room ' + 
 		room + '</p>');
 
+	socket.emit('joinRoom', {
+		name: name,
+		room: room
+	});
 });
 
 socket.on('message', function(message){
